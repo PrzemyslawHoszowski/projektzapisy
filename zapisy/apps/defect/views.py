@@ -90,7 +90,7 @@ def edit_defect(request, defect_id):
 
 def edit_defect_helper(request, defect):
     if request.method == 'POST':
-        return handle_post_request(request, if_edit=True, defect_id=defect.id)
+        return edit_defect_post_request(request, defect_id=defect.id)
     else:
         form = DefectForm(instance=defect)
         formset = DefectImageFormSet()
@@ -108,7 +108,7 @@ def edit_defect_helper(request, defect):
 def add_defect(request):
     """Show form for create new defect."""
     if request.method == 'POST':
-        return handle_post_request(request)
+        return add_defect_post_request(request)
     else:
         form = DefectForm()
         formset = DefectImageFormSet()
@@ -116,48 +116,60 @@ def add_defect(request):
     return render(request, 'addDefect.html', context)
 
 
-def handle_post_request(request, if_edit=False, defect_id=None):
+def return_error_and_reload(request, form, edit, errors):
+    messages.error(request, errors)
+    formset = DefectImageFormSet()
+    context = {'form': form, 'formset': formset, "response": request.method,
+               'extra_images_number': ExtraImagesNumber, "edit": edit}
+    return render(request, 'addDefect.html', context)
+
+
+def edit_defect_post_request(request, defect_id):
     form = DefectForm(request.POST, request.FILES)
-    if form.is_valid():
-        creation_date = now()
-        form_data = form.cleaned_data
+    if not form.is_valid():
+        return return_error_and_reload(request, form, True, str(form.errors))
 
-        if if_edit:
-            Defect.objects.filter(pk=defect_id).update(name=form_data['name'], last_modification=creation_date,
-                                                       description=form_data['description'], state=form_data['state'],
-                                                       place=form_data['place'])
-            messages.success(request, "Edytowano usterkę")
+    creation_date = now()
+    form_data = form.cleaned_data
+    defect = Defect.objects.filter(pk=defect_id)
+    formset = DefectImageFormSet(request.POST, request.FILES, instance=defect.get())
 
-        else:
-            defect = Defect(name=form_data['name'], creation_date=creation_date, last_modification=creation_date,
-                            place=form_data['place'], description=form_data['description'], reporter=request.user,
-                            state=form_data['state'])
+    if not formset.is_valid():
+        return return_error_and_reload(request, form, True, str(formset.errors))
 
-            formset = DefectImageFormSet(request.POST, request.FILES, instance=defect)
+    defect.update(name=form_data['name'], last_modification=creation_date,
+                  description=form_data['description'], state=form_data['state'],
+                  place=form_data['place'])
+    formset.save()
 
-            if formset.is_valid():
-                defect.save()
-                formset.save()
+    messages.success(request, "Edytowano usterkę")
+    return redirect('defects:main')
 
-                messages.success(request, "Dodano pomyślnie usterkę")
-                return redirect('defects:main')
 
-            else:
-                messages.error(request, str(formset.errors))
-                context = {'form': form, 'formset': formset, "response": request.method,
-                           'extra_images_number': ExtraImagesNumber, "edit": if_edit}
-                return render(request, 'addDefect.html', context)
+def add_defect_post_request(request):
+    form = DefectForm(request.POST, request.FILES)
+    if not form.is_valid():
+        return return_error_and_reload(request, form, False, str(form.errors))
 
-    else:
-        messages.error(request, str(form.errors))
-        formset = DefectImageFormSet()
-        context = {'form': form, 'formset': formset, "response": request.method,
-                   'extra_images_number': ExtraImagesNumber, "edit": if_edit}
-        return render(request, 'addDefect.html', context)
+    creation_date = now()
+    form_data = form.cleaned_data
+    defect = Defect(name=form_data['name'], creation_date=creation_date, last_modification=creation_date,
+                    place=form_data['place'], description=form_data['description'], reporter=request.user,
+                    state=form_data['state'])
+
+    formset = DefectImageFormSet(request.POST, request.FILES, instance=defect)
+    if not formset.is_valid():
+        return return_error_and_reload(request, form, False, str(formset.errors))
+
+    defect.save()
+    formset.save()
+
+    messages.success(request, "Dodano pomyślnie usterkę")
+    return redirect('defects:main')
 
 
 def print_defects(request, defects_list=None):
-    if defects_list==None:
+    if defects_list is None:
         return render(request, 'defectPrint.html', {'defects' : Defect.objects.all()})
     else:
         return render(request, 'defectPrint.html', {'defects' : Defect.objects.filter(pk__in=defects_list)})
