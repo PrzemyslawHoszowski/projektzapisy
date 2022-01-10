@@ -2,10 +2,12 @@ import json
 
 from django.contrib import messages
 from django.db import transaction
-from django.shortcuts import render, redirect
+from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
 
 from .models import Defect, StateChoices
 
@@ -94,12 +96,11 @@ def edit_defect_helper(request, defect):
     else:
         form = DefectForm(instance=defect)
         formset = DefectImageFormSet()
-        images = Image.objects.filter(defect=defect)
-        image_urls = []
+        images = []
 
-        for image in images:
-            image_urls.append(image.image.url[:-16])
-    context = {'form': form, 'formset': formset, "response": request.method, "edit": True, 'image_urls': image_urls,
+        for image in Image.objects.filter(defect=defect):
+            images.append((image.id, image.image.url[:-16]))
+    context = {'form': form, 'formset': formset, "response": request.method, "edit": True, 'images': images,
                'extra_images_number': ExtraImagesNumber}
     return render(request, 'addDefect.html', context)
 
@@ -173,3 +174,19 @@ def print_defects(request, defects_list=None):
         return render(request, 'defectPrint.html', {'defects' : Defect.objects.all()})
     else:
         return render(request, 'defectPrint.html', {'defects' : Defect.objects.filter(pk__in=defects_list)})
+
+
+def delete_image(request, image_id):
+    if request.method == "POST":
+        image = get_object_or_404(Image, id=image_id)
+        defect_id = image.defect.id
+        image_path = '/zapisy/defect/' + image.image.name
+
+        image.delete()
+
+        if gd_storage.exists(image_path):
+            gd_storage.delete(image_path)
+
+        messages.success(request, "Pomyślnie usnięto zdjęcie")
+        return redirect('defects:edit_defect', defect_id=defect_id)
+    raise Http404
