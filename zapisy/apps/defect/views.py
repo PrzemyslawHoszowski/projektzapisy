@@ -130,7 +130,6 @@ def edit_defect_post_request(request, defect_id):
     if not form.is_valid():
         return return_error_and_reload(request, form, True, str(form.errors))
 
-    creation_date = now()
     form_data = form.cleaned_data
     defect = Defect.objects.filter(pk=defect_id)
     formset = DefectImageFormSet(request.POST, request.FILES, instance=defect.get())
@@ -138,7 +137,7 @@ def edit_defect_post_request(request, defect_id):
     if not formset.is_valid():
         return return_error_and_reload(request, form, True, str(formset.errors))
 
-    defect.update(name=form_data['name'], last_modification=creation_date,
+    defect.update(name=form_data['name'], last_modification=now(),
                   description=form_data['description'], state=form_data['state'],
                   place=form_data['place'])
     formset.save()
