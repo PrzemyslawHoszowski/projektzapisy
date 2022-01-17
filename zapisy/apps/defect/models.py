@@ -26,8 +26,7 @@ class Defect(models.Model):
     description = models.TextField("Opis usterki", blank=True)
     reporter = models.ForeignKey(User, on_delete=models.CASCADE)
     state = models.PositiveSmallIntegerField("Stan", choices=StateChoices.choices, default=StateChoices.CREATED)
-    information_from_repairer = models.CharField(max_length=DEFECT_MAX_INFORMATION_FROM_REPAIRER_SIZE,
-                                                 verbose_name="Informacja od serwisanta")
+    information_from_repairer = models.TextField("Opis usterki", blank=True)
 
     def get_url(self):
         return reverse('defects:show_defect', args=[str(self.id)])
