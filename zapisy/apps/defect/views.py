@@ -192,8 +192,16 @@ def delete_image(request, image_id):
 
 
 def post_information_from_repairer(request, defect_id):
-    if request.method == "POST":   # TODO: implement this and make field for this bigger in template
+    if request.method == "POST":
+        info_form = InformationFromRepairerForm(request.POST)
+        if not info_form.is_valid():
+            messages.error(request, info_form.errors)
+            return redirect('defects:show_defect', defect_id=defect_id)
+
+        info_form_data = info_form.cleaned_data
+        defect = Defect.objects.filter(pk=defect_id)
+        defect.update(information_from_repairer=info_form_data['information_from_repairer'])
+
         messages.success(request, "Pomyślnie zmieniono informację od serwisanta")
         return redirect('defects:show_defect', defect_id=defect_id)
-
     raise Http404

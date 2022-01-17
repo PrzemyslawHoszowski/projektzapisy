@@ -63,10 +63,9 @@ class InformationFromRepairerForm(forms.ModelForm):
         model = Defect
         fields = ['information_from_repairer']
 
-    information_from_repairer = forms.CharField(label="Informacja od serwisanta", max_length=DEFECT_MAX_NAME_SIZE)
-
     def __init__(self, *args, **kwargs):
         super(InformationFromRepairerForm, self).__init__(*args, **kwargs)
+        self.fields['information_from_repairer'].label = ""
         self.helper = FormHelper()
         self.helper.form_tag = False
 
