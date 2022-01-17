@@ -6,12 +6,10 @@ from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.timezone import now
-from django.views.generic import CreateView
-from django.views.generic import DeleteView
 
 from .models import Defect, StateChoices
 
-from .forms import DefectForm, ImageForm, Image, DefectImageFormSet, ExtraImagesNumber
+from .forms import DefectForm, Image, DefectImageFormSet, ExtraImagesNumber, InformationFromRepairerForm
 
 
 from ..users.decorators import employee_required
@@ -74,7 +72,9 @@ def show_defect(request, defect_id):
         for image in images:
             image_urls.append(image.image.url[:-16])
 
-        return render(request, 'showDefect.html', {'defect': defect, 'image_urls': image_urls})
+        info_form = InformationFromRepairerForm(instance=defect)
+
+        return render(request, 'showDefect.html', {'defect': defect, 'image_urls': image_urls, 'info_form': info_form})
     except Defect.DoesNotExist:
         messages.error(request, "Nie istnieje usterka o podanym id.")
         return redirect('defects:main')
@@ -188,4 +188,12 @@ def delete_image(request, image_id):
 
         messages.success(request, "Pomyślnie usnięto zdjęcie")
         return redirect('defects:edit_defect', defect_id=defect_id)
+    raise Http404
+
+
+def post_information_from_repairer(request, defect_id):
+    if request.method == "POST":   # TODO: implement this and make field for this bigger in template
+        messages.success(request, "Pomyślnie zmieniono informację od serwisanta")
+        return redirect('defects:show_defect', defect_id=defect_id)
+
     raise Http404
