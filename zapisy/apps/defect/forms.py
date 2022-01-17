@@ -16,7 +16,7 @@ class DefectFormBase(forms.ModelForm):
         model = Defect
         fields = ["name", "place", "description", "state"]
 
-    name = forms.CharField(label="Nazwa", max_length=DEFECT_MAX_NAME_SIZE)
+    name = forms.CharField(label="Nazwa (krótki opis)", max_length=DEFECT_MAX_NAME_SIZE)
     place = forms.CharField(label="Miejsce usterki", max_length=DEFECT_MAX_PLACE_SIZE)
 
     def __init__(self, *args, **kwargs):
