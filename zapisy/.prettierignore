@@ -2,3 +2,4 @@ templates/
 compiled_assets/
 .yarn/*
 .pnp*
+.xyz
