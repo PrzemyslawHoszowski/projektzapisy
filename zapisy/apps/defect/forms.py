@@ -69,4 +69,13 @@ class InformationFromRepairerForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
 
+class ChangeStatusForm(forms.ModelForm):
+    class Meta:
+        model = Defect
+        fields = ['status']
 
+    def __init__(self, *args, **kwargs):
+        super(ChangeStatusForm, self).__init__(*args, **kwargs)
+        self.fields['status'].label = ""
+        self.helper = FormHelper()
+        self.helper.form_tag = False

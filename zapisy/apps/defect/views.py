@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
 
 from .models import Defect, StateChoices
-from .forms import DefectForm, Image, DefectImageFormSet, ExtraImagesNumber, InformationFromRepairerForm
+from .forms import ChangeStatusForm, DefectForm, Image, DefectImageFormSet, ExtraImagesNumber, InformationFromRepairerForm
 from apps.notifications.custom_signals import defect_modified
 
 from ..users.decorators import employee_required
@@ -221,5 +221,19 @@ def post_information_from_repairer(request, defect_id):
             )
 
         messages.success(request, "Pomyślnie zmieniono informację od serwisanta")
+        return redirect('defects:show_defect', defect_id=defect_id)
+    raise Http404
+
+def update_defect_status(request, defect_id):
+    if request.method == "POST":
+        form = ChangeStatusForm(request.POST)
+        if not form.is_valid():
+            messages.error(request, form.errors)
+            return redirect('defects:show_defect', defect_id=defect_id)
+
+        new_state = form.cleaned_data
+        new_state = new_state['status']
+        Defect.objects.filter(pk=defect_id).update(state=new_state)
+        messages.success(request, "Pomyślnie zmieniono status usterki")
         return redirect('defects:show_defect', defect_id=defect_id)
     raise Http404

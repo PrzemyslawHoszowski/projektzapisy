@@ -78,7 +78,7 @@
         </tbody>
     </table>
     <h2>Opis usterki</h2>
-    {{ defect.description }}
+    {{ defect.description }}    
 
     <hr>
 
@@ -105,6 +105,30 @@
             {% csrf_token %}
             {% crispy info_form %}
             <button class="btn btn-success" type="submit">Zapisz</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <h3>Status usterki</h3>
+    <div id="info-div">
+        <div id="info-text">
+            Aktualny status: {{ defect.get_state_display }}
+        </div>
+        <br/>
+         <form action="{% url 'defects:change_status' defect.id %}" method="POST" class="post-form"> 
+            {% csrf_token %}
+            
+            <input type="radio" id="select-defect-status" name="Zgloszone">
+            <label for="Zgloszone">Zgłoszone</label> <br/>
+            <input type="radio" id="select-defect-status" name="W_realizacji">
+            <label for="W_realizacji">W realizacji</label> <br/>
+            <input type="radio" id="select-defect-status" name="W_oczekiwaniu">
+            <label for="W_oczekiwaniu">W oczekiwaniu na realizację</label> <br/>
+            <input type="radio" id="select-defect-status" name="Zakonczone">
+            <label for="Zakonczone">Zakończone</label> <br/>
+            
+            <button class="btn btn-success" type="submit">Zmień status</button>
         </form>
     </div>
 

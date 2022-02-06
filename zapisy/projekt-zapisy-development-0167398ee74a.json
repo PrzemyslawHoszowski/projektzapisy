@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "projekt-zapisy-development",
+  "private_key_id": "0167398ee74a5400e62a71ae4985898f94809283",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKwyfa4A/27I5y\nMuPiF8eU+msQ727HYn1aLKtZizRSc4KEuAea9zh65Dstp55oXROM9+6O1CStncCX\nC4FPgYWezwhdnzS70dr76KNtxydk35EM0/mvAx46zO0LuhBrdDYshfBKjTPZ71Qt\nvXDrWA4n5TfDC5n3aQ2y382uhVar+46xaRmRt6WEXKHS37UaWGiWvOQXUg1hXn3V\nPHtxhyWNn5BUSlHLh4+Y3mm1OTmTFtbxsKfnLHNtaMOHJGgtKmYfkkJ2N4E3j+8M\nDtTKSP7PpajAd8yNgOjIi02q3tr5Kg2191oiQUw4F5WhvA7gN3TKv2rUFqSywR3T\n0NMPqfBdAgMBAAECggEAJvTS4fcdqhvuDFvhs61M778jNfhCqPUvz1T4wPYBYfwG\nbhhrgacRB291PULQqQ2E9ZcnEvMIbwD5oSuZNxzT/tyZJ1+wwotBzxd12uAiHfvk\nQvoxJSJsuvBndNLVV8fWprw/HBvABBW67yTQHq9m3Nxp18QRW1soQh9Excyhh94v\nlkeAzPZ7CDrrX1Sb6Kb1vxaGmSaer8T8CKgMZbMD2k57E1yz6n/faKnaHIZRfMV6\nGIwziFTv2kdfjMEQ+2v/6c/CWhDIkdnLZGmGCapxVC+UuFXq16D8rxTYhQ4deX1U\ndAcETynFLvibqSdD80JgmlRsHUOVoPaNCf/QCRdxcQKBgQD9I4A9Vo9+KXdrdHeA\nD0OthO3M6KqSfG/cdse4MURT7ewHJwqQ8uVMZBxPXWOQDja4txevSxxC52DDvSIc\nzEwNklndSohWbmOd6ArImeIalkDdKuSnbhO3skB8sgkdhfBolJEMSoPMXHPAT9aJ\nv3gwisTlV+Sg45zQeqn3o53slQKBgQDNDeHikznNIZUv0Sqwu5vsydn0KxocS6l/\niPeIH3f2pok1b5Lm8/FiFqHcu2M88uDFeP9/5xsx89hyssSgDD2KMaz4iNlfNQCU\nZFsD5nfOoT9JQMKvk76hz9gYd/aIm3RSbRfcC6TkRMwLsLkAuHtx0WrKk6yAkghl\nxm9TrtM6qQKBgQCPIz3mcUXebxAp4MeZ0AfS3HGjBoU9I8QVA81XJ/SdCNIIEVl2\nMQLbuVgQwJwF3yOuO0nXQz+NzUv4IsBhTFxM6E6MRRLm3LDTn1xJpkomAoRXC2QU\nELhxjQfN+tYQraYNXMTQEGqKalTBj+OeLHiH6k//5z1OhKYtdM8bSpeIKQKBgECG\noNFawPKjIb4lVQi+UMfHkRV7xsCmspTWdgZY2Lg+Gak+Df0tQIU8V/0M3qKcT0z0\n0XnfMLicYj1dsfAnSepFzYd8EOMb263Wkql8ibD1HuQfQ+RaWr+ylu7EOUktmgIi\nIEL3SxEl8QuwtdbbNsVPQAq1Q7BFw+y67+dmeUPZAoGBAOs2tVAxGK2tFpC61j8O\nEoQX2V3gWctzNQrcAQ2aL1Crv8Z+uf+5s01E3oIZxaxsqYg+8MVR9fAyhblarhEx\ngEBjj856mQGZW2Y+bm3hlfhv2ij0d2aDSjSElCBEaV3X3vGf0xVq1VTijhgy5/uH\n3QC9rNv5e6hbzaCd/YklObeI\n-----END PRIVATE KEY-----\n",
+  "client_email": "projekt-zapisy-development@projekt-zapisy-development.iam.gserviceaccount.com",
+  "client_id": "117248930330514232015",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/projekt-zapisy-development%40projekt-zapisy-development.iam.gserviceaccount.com"
+}
